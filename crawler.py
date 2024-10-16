@@ -14,7 +14,8 @@ def crawl(url, depth, current_depth=0, visited=None):
         return {}
 
     visited.add(url)
-    result = {url: []}
+    result = {url: [],
+              'depth': current_depth}
 
     try:
         response = requests.get(url)

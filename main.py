@@ -1,5 +1,5 @@
-from crawler import crawl, is_valid
-from report import print_report, sort_results
+from crawler import crawl
+from report import print_report
 
 def main():
     url = input('Enter a URL: ')
@@ -7,6 +7,7 @@ def main():
 
     results = crawl(url, depth)
     print_report(results)
+    return results
 
 if __name__ == '__main__':
     main()

@@ -2,6 +2,8 @@ import asyncio
 import logging
 from urllib.parse import urljoin, urlparse
 
+import os
+
 import aiohttp
 from bs4 import BeautifulSoup
 from flask import Flask, request
@@ -9,7 +11,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_restx import Api, Resource, fields
 
-port = 5000
+port = int(os.environ.get("PORT", 4000))
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

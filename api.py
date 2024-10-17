@@ -9,6 +9,8 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_restx import Api, Resource, fields
 
+port = 5000
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -65,7 +67,9 @@ ns = api.namespace('api', 'Simple Web Crawler API by github.com/rohiitgit')
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=["300 per day", "50 per hour"]
+    default_limits=["300 per day", "50 per hour"],
+    storage_uri="memcached://localhost:11211",
+    storage_options={}
 )
 
 crawler_input = api.model('CrawlerInput', {
@@ -103,4 +107,4 @@ class CrawlAPI(Resource):
             api.abort(500, f"An error occurred: {str(e)}")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, port=port)

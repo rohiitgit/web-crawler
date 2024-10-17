@@ -69,9 +69,7 @@ ns = api.namespace('api', 'Simple Web Crawler API by github.com/rohiitgit')
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=["300 per day", "50 per hour"],
-    storage_uri="memcached://localhost:11211",
-    storage_options={}
+    default_limits=["300 per day", "50 per hour"]
 )
 
 crawler_input = api.model('CrawlerInput', {

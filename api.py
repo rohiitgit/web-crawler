@@ -11,7 +11,13 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_restx import Api, Resource, fields
 
-port = int(os.environ.get("PORT", 4000))
+import redis
+
+
+port = int(os.environ.get("PORT", 8080))
+
+r = redis.Redis()
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -57,7 +63,7 @@ async def crawl(url, depth, current_depth=0, visited=None):
                         logger.info(f'Crawling {full_url}...')
                         tasks.append(crawl(full_url, depth, current_depth + 1, visited))
 
-        results = await asyncio.gather(*tasks)
+        results = await asyncio.gather(*tasks, return_exceptions=True)
         for res in results:
             result.update(res)
 
@@ -69,7 +75,8 @@ ns = api.namespace('api', 'Simple Web Crawler API by github.com/rohiitgit')
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=["300 per day", "50 per hour"]
+    default_limits=["300 per day", "50 per hour"],
+    storage_uri='memory://redis-11229.c238.us-central1-2.gce.redns.redis-cloud.com'
 )
 
 crawler_input = api.model('CrawlerInput', {

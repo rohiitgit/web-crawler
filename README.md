@@ -7,6 +7,14 @@
 ## Overview
 This project implements a simple web crawler that can be triggered via an API call. It accepts a starting URL and a specified depth for crawling, returning a structured JSON response with the crawled links.
 
+## Run and Test API locally
+```
+git clone https://github.com/rohiitgit/web-crawler.git
+cd web-crawler
+pip install -r requirements.txt
+python api.py
+```
+
 ## Features
 - Crawl web pages to a specified depth.
 - Return crawled links in a structured JSON format.
